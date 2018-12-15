@@ -1,10 +1,20 @@
-// Grab the articles as a json
+  // Grab the articles as a json
 $.getJSON("/api/articles", function (data) {
+  var unique = [];
   // For each one
   for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").prepend("<a href='" + data[i].link + "' target='_blank'> <img src='" + data[i].image + "'></a></p>");
-    $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + data[i].title + "</p>");
+    // Check for unique articles
+    var name = data[i].title;
+    if (!(unique.includes(name))) {
+      unique.push(name);
+
+      // Display the information on the page
+      var html = `<p data-id="${data[i]._id}">${data[i].title}</p>
+    <a href="${data[i].link}" target="_blank"> 
+      <img src="${data[i].image}">
+    </a>`;
+      $("#articles").prepend(html);
+    }
   }
 });
 
@@ -22,14 +32,11 @@ $(document).on("click", "p", function () {
   })
     // With that done, add the note information to the page
     .then(function (data) {
-      // The title of the article
-      $("#comments").append("<p>" + data.title + "</p>");
-      // An input to enter a author
-      $("#comments").append("<input id='authorinput' name='author' placeholder='Your name'>");
-      // A textarea to add a new note body
-      $("#comments").append("<textarea id='bodyinput' name='body' placeholder='Your comment'></textarea>");
-      // A button to submit a new note, with the id of the article saved to it
-      $("#comments").append("<button data-id='" + data._id + "' id='saveComment'>Save Comment</button>");
+      var html = `<p>"${data.title}"</p>
+      <input id="authorinput" name="author" placeholder="Your name">
+      <textarea id="bodyinput" name="body" placeholder="Your comment"></textarea><br>
+      <button data-id="${data._id}" id="saveComment">Save Comment</button></div>`
+      $("#comments").append(html);
     })
   // If there's a comment attached to the article
   $.ajax({
@@ -37,18 +44,18 @@ $(document).on("click", "p", function () {
     url: "/api/comments/" + thisId
   })
     .then(function (data) {
-      console.log(data);
-for (i=0; i<data.length; i++){
-  var parseTimestamp = data[i].timestamp;
-  var commentTime = 
-        // Using the timestamp of the comment ...
-      $("#pastComments").append("<p> At " + data[i].timestamp + " " + data[i].author + " said ... <p>")
+      $("#pastComments").empty();
+
       // Place the body of the note in the body textarea
-      $("#pastComments").append("<p>" + data[i].body + "</p>");
-      $("#pastComments").append("<p> -----------------------------------------</p>")
-    }
-  });
-  });
+
+      for (i = 0; i < data.length; i++) {
+        var html = `<p> At "${data[i].timestamp} ${data[i].author} said ... </p>
+        <p>${data[i].body}</p>
+        <p> -----------------------------------------</p>`
+        $("#pastComments").append(html);
+      }
+    });
+});
 
 // When you click the saveComment button
 $(document).on("click", "#saveComment", function () {
@@ -71,7 +78,6 @@ $(document).on("click", "#saveComment", function () {
   })
     // With that done
     .then(function (data) {
-      console.log(data);
       // Empty the notes section
       $("#comments").empty();
       $("#pastComments").empty();

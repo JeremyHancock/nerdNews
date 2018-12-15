@@ -32,7 +32,7 @@ mongoose.connect(MONGODB_URI);
 
 // Routes
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the nerdist website
 app.get("/api/scrape", function(req, res) {
     // First, we grab the body of the html with axios
     axios.get("https://nerdist.com/categories/").then(function(response) {
@@ -55,8 +55,6 @@ app.get("/api/scrape", function(req, res) {
         // Create a new Article using the `result` object built from scraping
         db.Article.create(result)
           .then(function(dbArticle) {
-            // View the added result in the console
-            console.log(dbArticle);
           })
           .catch(function(err) {
             // If an error occurred, log it
@@ -137,7 +135,6 @@ app.get("/api/scrape", function(req, res) {
         return db.Article.findOneAndUpdate({ "_id": req.params.id }, { commentId: dbComment._id }, { new: true })
       .then(function(dbArticle) {
         // If we were able to successfully update an Article, send it back to the client
-        console.log(dbArticle);
         res.json(dbArticle);
       })
       .catch(function(err) {
