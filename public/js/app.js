@@ -46,7 +46,7 @@ $(document).on("click", "p", function () {
       <button data-id="${data._id}" id="saveComment">Save Comment</button></div>`
       $("#comments").append(html);
     })
-  // If there's a comment attached to the article
+  // Get any existing comments that are associated with the article
   $.ajax({
     method: "GET",
     url: "/api/comments/" + thisId
