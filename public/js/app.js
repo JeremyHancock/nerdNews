@@ -1,4 +1,4 @@
-  // Grab the articles as a json
+// Grab the articles as a json
 $.getJSON("/api/articles", function (data) {
   var unique = [];
   // For each one
@@ -9,13 +9,20 @@ $.getJSON("/api/articles", function (data) {
       unique.push(name);
 
       // Display the information on the page
-      var html = `<p data-id="${data[i]._id}">${data[i].title}</p>
-    <a href="${data[i].link}" target="_blank"> 
+      var html = `<div class="card align-items-center"> <p id="title" data-id="${data[i]._id}">${data[i].title}</p>
+    <a href="${data[i].link}" target="_blank">
       <img src="${data[i].image}">
-    </a>`;
-      $("#articles").prepend(html);
+    </a></div>`;
+      $("#articles").append(html);
     }
   }
+});
+// Scrape the site on page load
+$(document).ready(function () {
+  $.ajax({
+    method: "GET",
+    url: "/api/scrape/"
+  })
 });
 
 // Whenever someone clicks a p tag
@@ -33,6 +40,7 @@ $(document).on("click", "p", function () {
     // With that done, add the note information to the page
     .then(function (data) {
       var html = `<p>"${data.title}"</p>
+      <div class="card">
       <input id="authorinput" name="author" placeholder="Your name">
       <textarea id="bodyinput" name="body" placeholder="Your comment"></textarea><br>
       <button data-id="${data._id}" id="saveComment">Save Comment</button></div>`
@@ -50,8 +58,7 @@ $(document).on("click", "p", function () {
 
       for (i = 0; i < data.length; i++) {
         var html = `<p> At "${data[i].timestamp} ${data[i].author} said ... </p>
-        <p>${data[i].body}</p>
-        <p> -----------------------------------------</p>`
+        <p>${data[i].body}</p> <button data-id="${data[i]._id}" id="deleteComment">Delete</button>`
         $("#pastComments").append(html);
       }
     });
@@ -86,5 +93,19 @@ $(document).on("click", "#saveComment", function () {
   // Also, remove the values entered in the input and textarea for note entry
   $("#authorinput").val("");
   $("#bodyinput").val("");
-
 });
+
+// When you click the deleteComment button
+$(document).on("click", "#deleteComment", function () {
+  // Grab the id associated with the comment from the delete button
+  var thisId = $(this).attr("data-id");
+  console.log(thisId);
+  $.ajax({
+    method: "DELETE",
+    url: "/api/comments/" + thisId
+  });
+  // Empty the notes section
+  $("#comments").empty();
+  $("#pastComments").empty();
+});
+

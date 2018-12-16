@@ -1,34 +1,31 @@
       body {
         background-color: black;
       }
+      .jumbotron {
+        background-color: whitesmoke;
+        color: black;
+      }
       #wrapper {
-        /* width: 960px; */
         margin-left: auto;
         margin-right: auto;
-        /* padding: 5%; */
         background-color: whitesmoke;
       }
       #articles {
-        /* display: inline-block; */
         overflow: auto;
-        /* width: 60%; */
         height: 700px;
       }
-      #comments {
-        /* width: 30%; */
-      }
+
       #pastComments {
         overflow: auto;
       }
-      textarea, input {
-        /* display: block; */
-        /* width: 100%; */
-      }
+
       input {
-        /* height: 36px; */
         font-size: 18px;
       }
       textarea {
         height: 200px;
         font-size: 18px;
+      }
+      #title {
+        font-weight: bold
       }

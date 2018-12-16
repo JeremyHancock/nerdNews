@@ -12,20 +12,25 @@
 
 <body>
   <div class="container" id="wrapper">
-    <div class="row col-12">
-      <h1>Nerd News!</h1>
+    <div class="jumbotron text-center">
+      <div>
+        <img src="images/icons8-glasses-100.png">
+        <h1>Nerd News!</h1>
+      </div>
+      <div>
+        <h2>The latest, greatest news</h2>
+      </div>
     </div>
-    <div class="row col-12">
-      <h2>The lastest, greatest news</h2>
-    </div>
-    <h3><i>Click the text to leave a comment. Click an image to open the article in a new tab.</i></h3>
-    <div class="row col-12">
+
+    <div class="row">
       <div class="col-8">
+          <h6>Click an image to open the article in a new tab.</h6>
+          <h6>Click a title to leave a comment and see other comments.</h6>
         <div id="articles"></div>
       </div>
       <div class="col-4">
-        <div class="card" id="comments"></div>
-        <div class="card" id="pastComments"></div>
+        <div id="comments"></div>
+        <div id="pastComments"></div>
       </div>
     </div>
   </div>
