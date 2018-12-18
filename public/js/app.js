@@ -13,7 +13,7 @@ $.getJSON("/api/articles", function (data) {
     <a href="${data[i].link}" target="_blank">
       <img src="${data[i].image}">
     </a></div>`;
-      $("#articles").append(html);
+      $("#articles").prepend(html);
     }
   }
 });
